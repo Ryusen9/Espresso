@@ -28,7 +28,7 @@ const AllCoffee = ({ coffees }) => {
             if(data.deletedCount > 0) {
                 swalWithBootstrapButtons.fire({
                     title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    text: "Your coffee has been deleted.",
                     icon: "success",
                   });
             }
@@ -75,7 +75,7 @@ const AllCoffee = ({ coffees }) => {
                     <p>Details: {coffee.details}</p>
                   </div>
                   <div className="flex flex-col gap-4 justify-center items-center">
-                    <Link to={`/editCoffee/${coffee._id}`}>
+                    <Link to={`/updateCoffee/${coffee._id}`}>
                       <button className="btn btn-primary">Edit</button>
                     </Link>
                     <button
