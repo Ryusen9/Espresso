@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     loader: ({ params }) => fetch(`http://localhost:3000/coffee/${params.id}`),
   },
   {
-    path: "Signin",
+    path: "/signin",
     element: <SignIn/>
   }
 ]);
