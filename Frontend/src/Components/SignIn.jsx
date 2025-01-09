@@ -1,7 +1,49 @@
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
+import Swal from "sweetalert2";
+
 const SignIn = () => {
+  const { createUser, setUser} = useContext(AuthContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(`Email: ${email}, Password: ${password}`);
+    createUser(email, password)
+      .then((result) => {
+        console.log(result);
+        setUser(result.user);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully",
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error signing in",
+          text: error.message,
+        });
+      });
+  };
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
-      <form className="p-5 w-80 bg-gray-300 flex flex-col items-start justify-center gap-5 rounded-md border-2 border-gray-800 shadow-[4px_4px_0px_#323232]">
+      <form
+        className="p-5 w-80 bg-gray-300 flex flex-col items-start justify-center gap-5 rounded-md border-2 border-gray-800 shadow-[4px_4px_0px_#323232]"
+        onSubmit={handleSubmit}
+      >
         <p className="font-bold text-lg text-gray-800">
           Welcome,
           <span className="block font-semibold text-gray-600 text-base">
@@ -40,12 +82,14 @@ const SignIn = () => {
         <input
           type="email"
           placeholder="Email"
+          name="email"
           className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
         />
 
         <input
           type="password"
           placeholder="Password"
+          name="password"
           className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
         />
 
