@@ -27,6 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const coffeeCollection = client.db('coffeeDB').collection('coffeeCollection');
+    const userCollection = client.db('coffeeDB').collection('userCollection');
 
     app.get('/coffee', async(req, res) => {
       const allCoffees = await coffeeCollection.find().toArray();
@@ -73,6 +74,28 @@ async function run() {
       const result = await coffeeCollection.deleteOne(query);
       res.send(result)
     })
+
+    //User related API
+    app.get('/users', async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    app.get('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)};
+      const user = await userCollection.findOne(query);
+      res.send(user);
+    })
+
+    app.post('/users', async(req, res) => {
+      const newUser = req.body;
+      console.log("User is ", newUser);
+      const result = await userCollection.insertOne(newUser);
+      res.send(result);
+    })
+
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

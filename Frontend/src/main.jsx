@@ -7,6 +7,7 @@ import AddCoffee from "./Components/AddCoffee.jsx";
 import UpdateCoffee from "./Components/UpdateCoffee.jsx";
 import AuthProvider from "./Provider/AuthProvider.jsx";
 import SignIn from "./Components/SignIn.jsx";
+import Users from "./Components/Users.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SignIn/>
+  },
+  {
+    path: "/users",
+    element: <Users/>,
+    loader: () => fetch('http://localhost:3000/users')
   }
 ]);
 createRoot(document.getElementById("root")).render(

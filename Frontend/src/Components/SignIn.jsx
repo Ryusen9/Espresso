@@ -3,17 +3,26 @@ import { AuthContext } from "../Provider/AuthProvider";
 import Swal from "sweetalert2";
 
 const SignIn = () => {
-  const { createUser, setUser} = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
+    const name = form.name.value;
+    const photo = form.photo.value;
     console.log(`Email: ${email}, Password: ${password}`);
     createUser(email, password)
-      .then((result) => {
+    .then((result) => {
+        const newUser = { name, email, photo };
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'content-type' : 'application/json',
+          },
+          body: JSON.stringify(newUser),
+        }).then((result) => result.json()).then((data) => console.log("User created : ",data))
         console.log(result);
-        setUser(result.user);
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -80,9 +89,23 @@ const SignIn = () => {
         </div>
 
         <input
+          type="text"
+          placeholder="Name"
+          name="name"
+          className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
+        />
+
+        <input
           type="email"
           placeholder="Email"
           name="email"
+          className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
+        />
+
+<input
+          type="text"
+          placeholder="Photo URL"
+          name="photo"
           className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
         />
 
