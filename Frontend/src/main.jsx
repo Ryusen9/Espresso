@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    loader: () => fetch("http://localhost:3000/coffee"),
+    loader: () => fetch("https://espresso-server-lake.vercel.app/coffee"),
   },
   {
     path: "/addCoffee",
@@ -22,21 +22,22 @@ const router = createBrowserRouter([
   {
     path: "/updateCoffee/:id",
     element: <UpdateCoffee />,
-    loader: ({ params }) => fetch(`http://localhost:3000/coffee/${params.id}`),
+    loader: ({ params }) =>
+      fetch(`https://espresso-server-lake.vercel.app/coffee/${params.id}`),
   },
   {
     path: "/signup",
-    element: <SignIn/>
+    element: <SignIn />,
   },
   {
     path: "/users",
-    element: <Users/>,
-    loader: () => fetch('http://localhost:3000/users')
+    element: <Users />,
+    loader: () => fetch("https://espresso-server-lake.vercel.app/users"),
   },
   {
     path: "/login",
-    element: <Login/>
-  }
+    element: <Login />,
+  },
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>

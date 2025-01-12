@@ -22,20 +22,20 @@ const AllCoffee = ({ coffees }) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          fetch(`http://localhost:3000/coffee/${e}`, {
-            method: 'DELETE'
-          }).then(res => res.json()).then(data => {
-            if(data.deletedCount > 0) {
-                swalWithBootstrapButtons.fire({
-                    title: "Deleted!",
-                    text: "Your coffee has been deleted.",
-                    icon: "success",
-                  });
-            }
+          fetch(`https://espresso-server-lake.vercel.app/coffee/${e}`, {
+            method: "DELETE",
           })
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.deletedCount > 0) {
+                swalWithBootstrapButtons.fire({
+                  title: "Deleted!",
+                  text: "Your coffee has been deleted.",
+                  icon: "success",
+                });
+              }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: "Cancelled",
             text: "Your imaginary file is safe :)",

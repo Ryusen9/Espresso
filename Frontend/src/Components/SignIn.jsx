@@ -13,15 +13,17 @@ const SignIn = () => {
     const photo = form.photo.value;
     console.log(`Email: ${email}, Password: ${password}`);
     createUser(email, password)
-    .then((result) => {
+      .then((result) => {
         const newUser = { name, email, photo };
-        fetch('http://localhost:3000/users', {
-          method: 'POST',
+        fetch("https://espresso-server-lake.vercel.app/users", {
+          method: "POST",
           headers: {
-            'content-type' : 'application/json',
+            "content-type": "application/json",
           },
           body: JSON.stringify(newUser),
-        }).then((result) => result.json()).then((data) => console.log("User created : ",data))
+        })
+          .then((result) => result.json())
+          .then((data) => console.log("User created : ", data));
         console.log(result);
         const Toast = Swal.mixin({
           toast: true,
@@ -102,7 +104,7 @@ const SignIn = () => {
           className="w-64 h-10 rounded-md border-2 border-gray-800 bg-white shadow-[4px_4px_0px_#323232] font-semibold text-gray-800 px-3 outline-none"
         />
 
-<input
+        <input
           type="text"
           placeholder="Photo URL"
           name="photo"

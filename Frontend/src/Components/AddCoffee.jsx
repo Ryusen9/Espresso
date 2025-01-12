@@ -15,35 +15,33 @@ const AddCoffee = () => {
     const category = formData.get("category");
     const details = formData.get("details");
     const photo = formData.get("photo");
-    
-    const newCoffee = {name, chef, supplier, taste, category, details, photo};
+
+    const newCoffee = { name, chef, supplier, taste, category, details, photo };
     console.log(newCoffee);
 
-    fetch('http://localhost:3000/coffee', {
-      method: 'POST',
+    fetch("https://espresso-server-lake.vercel.app/coffee", {
+      method: "POST",
       headers: {
-        'content-type' : 'application/json'
+        "content-type": "application/json",
       },
       body: JSON.stringify(newCoffee),
-    }).then(res => res.json()).then(data => {
-      if(data.insertedId) {
-        Swal.fire({
-          title: 'Coffee Added!',
-          text: 'Your coffee has been added successfully!',
-          icon: 'success',
-          confirmButtonText: 'Close'
-        })
-      }
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Coffee Added!",
+            text: "Your coffee has been added successfully!",
+            icon: "success",
+            confirmButtonText: "Close",
+          });
+        }
+      });
   };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
-      <form
-        ref={form}
-        className="border-2 p-5"
-        onSubmit={handleSubmit}
-      >
+      <form ref={form} className="border-2 p-5" onSubmit={handleSubmit}>
         <p className="text-center text-3xl font-bold">Coffee Information</p>
         <div className="flex gap-3">
           <label className="form-control w-full max-w-xs">

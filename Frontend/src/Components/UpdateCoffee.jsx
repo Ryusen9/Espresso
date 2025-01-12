@@ -8,7 +8,7 @@ const UpdateCoffee = () => {
   const form = useRef();
   const handleUpdate = (event) => {
     event.preventDefault();
-    console.log(_id)
+    console.log(_id);
     const formData = new FormData(form.current);
 
     const name = formData.get("name");
@@ -19,61 +19,69 @@ const UpdateCoffee = () => {
     const details = formData.get("details");
     const photo = formData.get("photo");
 
-    const updatedCoffee = {name, chef, supplier, taste, category, details, photo};
+    const updatedCoffee = {
+      name,
+      chef,
+      supplier,
+      taste,
+      category,
+      details,
+      photo,
+    };
     const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger",
-          },
-          buttonsStyling: false,
-        });
-        swalWithBootstrapButtons
-          .fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, Update it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: true,
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Update it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          console.log(_id);
+          fetch(`https://espresso-server-lake.vercel.app/coffee/${_id}`, {
+            method: "PUT",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(updatedCoffee),
           })
-          .then((result) => {
-            if (result.isConfirmed) {
-                console.log(_id)
-              fetch(`http://localhost:3000/coffee/${_id}`, {
-                method: 'PUT',
-                headers: {
-                  'content-type' : 'application/json'
-                },
-                body: JSON.stringify(updatedCoffee),
-              }).then(res => res.json()).then(data => {
-                if(data.modifiedCount > 0) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Updated!",
-                        text: "Your coffee has been Updated.",
-                        icon: "success",
-                      });
-                }
-              })
-            } else if (
-              result.dismiss === Swal.DismissReason.cancel
-            ) {
-              swalWithBootstrapButtons.fire({
-                title: "Cancelled",
-                text: "Your imaginary file is safe :)",
-                icon: "error",
-              });
-            }
-          })
-          .catch((error) => {
-            console.error("Error updating coffee:", error);
-            swalWithBootstrapButtons.fire({
-              title: "Error!",
-              text: "An error occurred while updating your coffee.",
-              icon: "error",
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.modifiedCount > 0) {
+                swalWithBootstrapButtons.fire({
+                  title: "Updated!",
+                  text: "Your coffee has been Updated.",
+                  icon: "success",
+                });
+              }
             });
-          });;
-  }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your imaginary file is safe :)",
+            icon: "error",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating coffee:", error);
+        swalWithBootstrapButtons.fire({
+          title: "Error!",
+          text: "An error occurred while updating your coffee.",
+          icon: "error",
+        });
+      });
+  };
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
       <form ref={form} onSubmit={handleUpdate} className="border-2 p-5">
